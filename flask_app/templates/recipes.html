@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %} Recipes {% endblock %}
+{% block link %} <a href="/diets">Diets</a> {% endblock %}
+{% block content %}
+<div class="row">
+
+    <div class="col-7">
+        <h3>All posted recipes</h3>
+        <table>
+            <thead>
+                <th class="pe-2">Name:</th>
+                <th class="pe-2">Total Calories: </th>
+                <th class="pe-2">Actions:</th>
+            </thead>
+            <tbody id="recipeTable" >
+                <!-- Se insertan las filas con js -->
+            </tbody>
+        </table>
+    </div>
+    <div class="col-5">
+        <h2 class="my-3">Add a New Recipe!</h2>
+        <form class="row pt-3" id="newRecipe" action="/process" method="post">
+            <div id="recipeMessages"></div> 
+            <!-- En el div recipeMessages se inserta la informacion con js -->
+            <input type="hidden" name="type" value="new_recipe">
+            <input type="hidden" name="user_id" value={{user.id}}>
+            
+            <div class="col-10">
+                <label class='col-4 mb-4' for="name">Name:</label>
+                <input class='col-7 ms-2 mb-4' type="text" name="name">
+                <div class="col-2"></div>
+                <label class='col-4 mb-4' for="img_url">Image URL:</label>
+                <input class='col-7 ms-2 mb-4' type="text" name="img_url">
+                <div class="col-2"></div>
+                <label class='col-4 mb-4 align-top' for="description">Description:</label>
+                <textarea class='col-7 ms-2 mb-4' name="description" rows="3"></textarea>
+                <div class="col-2"></div>
+                <label class='col-4 mb-4 align-top' for="instructions">Instructions:</label>
+                <textarea class='col-7 ms-2 mb-4' name="instructions" rows="5"></textarea>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <input class="px-2" type="submit">
+            </div>
+        </form>
+    </div>
+</div>
+<script src="{{url_for('static', filename = 'js/recipes.js')}}"></script>
+{% endblock %}

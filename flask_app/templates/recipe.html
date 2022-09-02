@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %} {{recipe.name}} {% endblock %}
+{% block link %} <a href="/recipes">Back to Recipes</a>{% endblock %}
+{% block content %}
+<div class="row">
+    <img class="col-5" src="{{recipe.img_url}}" alt="{{recipe.name}}" height="320">
+    <h2 class="col-8">{{recipe.name}}</h2> 
+    <p class="col-4 text-end">Posted by: {{recipe.creator.name}}</p>
+</div>
+<div class="row">
+    <p class="col-3 mb-3">Description:</p>
+    <p class="col-9">{{recipe.description}}</p>
+    <p class="col-3 mb-3">Total Calories:</p>
+    <p class="col-9">{{recipe.total_calories}}</p>
+    <p class="col-3 mb-3">Total Proteins:</p>
+    <p class="col-9">{{recipe.total_proteins}}</p>
+    <p class="col-3 mb-3">Total Carbos:</p>
+    <p class="col-9">{{recipe.total_carbos}}</p>
+    <p class="col-3 mb-3">Total Fats:</p>
+    <p class="col-9">{{recipe.total_fats}}</p>
+    <p class="col-3 mb-3">Instructions:</p>
+    <p class="col-9">{{recipe.instructions}}</p>
+    <h6 class="mb-3">Ingredients:</h6>
+    <ul>
+        {% for ingredient in ingredients %}
+        <li class="pb-2">{{ingredient.name}} || Calories: {{ingredient.calories}} || Grams: {{ingredient.grams}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

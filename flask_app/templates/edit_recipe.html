@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %} {{recipe.name}} {% endblock %}
+{% block link %} <a href="/recipes">Back to Recipes</a>{% endblock %}
+{% block content %}
+<div class="row">
+    <img class="col-5" id="recipe_img" src="https://cdn.dribbble.com/users/2460221/screenshots/8429684/media/225b2f10d124b2024b90a8e2348a78ee.jpg?compress=1&resize=768x576&vertical=top" alt="https://cdn.dribbble.com/users/2460221/screenshots/8429684/media/225b2f10d124b2024b90a8e2348a78ee.jpg" width="100px" height="320px">
+    <h2 id="name" class="col-8 pt-2">{{recipe.name}}</h2>
+</div>
+<div class="row">
+    <p class="col-3 mb-3">Description:</p>
+    <p id="description" class="col-9">{{recipe.description}}</p>
+    <p class="col-3 mb-3">Total Calories:</p>
+    <p id="total_calories" class="col-9">{{recipe.total_calories}}</p>
+    <p class="col-3 mb-3">Total Proteins:</p>
+    <p id="total_proteins" class="col-9">{{recipe.total_proteins}}</p>
+    <p class="col-3 mb-3">Total Carbos:</p>
+    <p id="total_carbos" class="col-9">{{recipe.total_carbos}}</p>
+    <p class="col-3 mb-3">Total Fats:</p>
+    <p id="total_fats" class="col-9">{{recipe.total_fats}}</p>
+    <p class="col-3 mb-3">Instructions:</p>
+    <p id="instructions" class="col-9">{{recipe.instructions}}</p>
+    <h5>Ingredients: </h5>
+    <ul id="ingredients">
+    </ul>
+</div>
+<div class="row">
+    <form id="editRecipe" class="col-7" action="/process" method="post">
+        <h2 class="my-3">Edit Recipe!</h2>
+        {% with messages = get_flashed_messages(category_filter=['new_recipe']) %}
+            {% if messages %}
+                {% for message in messages %}
+                <p class="text-danger">{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div id="recipeMessages"></div>
+        <input type="hidden" name="type" value="edit_recipe">
+        <input type="hidden" name="recipe_id" id='recipe_id' value={{recipe.id}}>
+        <label class='col-4 mb-4' for="name">Name:</label>
+        <input class='col-5 ms-2 mb-4' type="text" name="name" value={{recipe.name}}>
+        <div class="col-2"></div>
+        <label class='col-4 mb-4 align-top' for="description">Description:</label>
+        <textarea class='col-5 ms-2 mb-4' name="description" rows="3">{{recipe.description}}</textarea>
+        <div class="col-2"></div>
+        <label class='col-4 mb-4 align-top' for="instructions">Instructions:</label>
+        <textarea class='col-5 ms-2 mb-4' name="instructions" rows="3">{{recipe.instructions}}</textarea>
+        <div class="col-2"></div>
+        <label class='col-4 mb-4 align-top' for="img_url">Image URL:</label>
+        <textarea class='col-5 ms-2 mb-4' name="img_url" rows="3">{{recipe.img_url}}</textarea>
+        <div class="col-2"></div>
+        <div class="col-9 d-flex justify-content-end">
+            <input class="px-2" type="submit">
+        </div>
+    </form>
+    <form id="addIngredient" class="col-4" action="/process" method="post">
+        <h2 class="my-3">Add Ingredient!</h2>
+        <input type="hidden" name="type" value="add_ingredient">
+        <input type="hidden" name="recipe_id" id='recipe_id' value={{recipe.id}}>
+        <label class='col-4 mb-4' for="grams" >Quantity in grams:</label>
+        <input class='col-5 ms-2 mb-4' type="number" name="grams" min="1">
+        <div class="col-2"></div>
+        <label class='col-4 mb-4' for="food_id">Food:</label>
+        <select class='col-7 ms-2 mb-4' type="text" name="food_id">
+            {% for food in foods %}
+            <option value="{{food.id}}">{{food.name}}</option>
+            {% endfor %}
+        </select>
+        <div class="col-6 d-flex justify-content-end">
+            <input class="px-2" type="submit">
+        </div>
+    </form>
+</div>
+<script src="{{url_for('static', filename='js/edit_recipe.js')}}"></script>
+{% endblock %}

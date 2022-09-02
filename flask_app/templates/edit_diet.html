@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %} {{diet.name}} {% endblock %}
+{% block link %} <a href="/diets">Back to diets</a>{% endblock %}
+{% block content %}
+<div class="row">
+    <h2 id="name" class="col-8 pt-2">{{diet.name}}</h2> 
+</div>
+<div class="row">
+    <p class="col-3 mb-3">Description:</p>
+    <p id="description" class="col-9">{{diet.description}}</p>
+    <p class="col-3 mb-3">Type:</p>
+    <p id="type" class="col-9">{{diet.type}}</p>
+    <h5>Meals: </h5>
+    <ul id="meals">
+    </ul>
+</div>
+<div class="row">
+    <form id="editdiet" class="col-7" action="/process_diet" method="post">
+        <h2 class="my-3">Edit diet!</h2>
+        {% with messages = get_flashed_messages(category_filter=['new_diet']) %}
+            {% if messages %}
+                {% for message in messages %}
+                <p class="text-danger">{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div id="dietMessages"></div>
+        <input type="hidden" name="type" value="edit_diet">
+        <input type="hidden" name="diet_id" id='diet_id' value={{diet.id}}>
+        <label class='col-4 mb-4' for="name">Name:</label>
+        <input class='col-5 ms-2 mb-4' type="text" name="name" value={{diet.name}}>
+        <div class="col-2"></div>
+        <label class='col-4 mb-4 align-top' for="description">Description:</label>
+        <textarea class='col-5 ms-2 mb-4' name="description" rows="3">{{diet.description}}</textarea>
+        <div class="col-2"></div>
+        <label class='col-4 mb-4 align-top' for="dtype">Type:</label>
+        <input type='text' class='col-5 ms-2 mb-4' name="dtype" value="{{diet.type}}">
+        <div class="col-2"></div>
+        <div class="col-9 d-flex justify-content-end">
+            <input class="px-2" type="submit">
+        </div>
+    </form>
+    <form id="addMeal" class="col-4" action="/process_diet" method="post">
+        <h2 class="my-3">Add Meal!</h2>
+        <input type="hidden" name="type" value="add_meal">
+        <input type="hidden" name="diet_id" id='diet_id' value={{diet.id}}>
+        <label class='col-4 mb-4' for="mtype" >Type:</label>
+        <input class='col-5 ms-2 mb-4' type="text" name="mtype" required>
+        <div class="col-2"></div>
+        <label class='col-4 mb-4' for="day" >Day:</label>
+        <input class='col-5 ms-2 mb-4' type="number" name="day" min='1' required>
+        <div class="col-2"></div>
+        <label class='col-4 mb-4' for="time" >Time:</label>
+        <input class='col-5 ms-2 mb-4' type="time" name="time" required>
+        <div class="col-2"></div>
+        <label class='col-4 mb-4' for="recipe_id">Recipe:</label>
+        <select class='col-7 ms-2 mb-4' type="text" name="recipe_id">
+            {% for recipe in recipes %}
+            <option value="{{recipe.id}}">{{recipe.name}}</option>
+            {% endfor %}
+        </select>
+        <div class="col-6 d-flex justify-content-end">
+            <input class="px-2" type="submit">
+        </div>
+    </form>
+</div>
+<script src="{{url_for('static', filename='js/edit_diet.js')}}"></script>
+{% endblock %}
