@@ -9,4 +9,4 @@ The user will also be able to use the food database which includes all the nutri
 The technologies used for the project where:
 * DATABASE: MySQL
 * BACK END: Python, Flask, BCrypt
-* FRONT END: CSS, HTML, JS, AJAX 
+* FRONT END: HTML, JS, AJAX, BOOTSTRAP
